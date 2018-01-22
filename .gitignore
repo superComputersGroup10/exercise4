@@ -1,0 +1,6 @@
+*.out
+random_matrix/*
+*.o
+*.swap
+*.swp
+*.swo

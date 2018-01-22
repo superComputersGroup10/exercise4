@@ -104,15 +104,8 @@ int main (int argc, char **argv) {
 		}
 	}
 
-	// send dimensions to all peers
-	if(rank == 0) {
-		int i;
-		for(i = 1; i < size; i++){
-			MPI_Send(matrices_a_b_dimensions, 4, MPI_INT, i, 0, cartesian_grid_communicator);
-		}
-	} else {
-		MPI_Recv(matrices_a_b_dimensions, 4, MPI_INT, 0, 0, cartesian_grid_communicator, &status);
-	}
+	// rank zero send dimensions to all peers
+    MPI_Bcast(matrices_a_b_dimensions, 4, MPI_INT, 0, cartesian_grid_communicator);
 
 	A_rows = matrices_a_b_dimensions[0];
 	A_columns = matrices_a_b_dimensions[1];
@@ -169,23 +162,14 @@ int main (int argc, char **argv) {
 		}
 	} 
 
-	// send a block to each process
-	if(rank == 0) {
-		int i;
-		for(i = 1; i < size; i++){
-			MPI_Send((A_array + (i * A_local_block_size)), A_local_block_size, MPI_DOUBLE, i, 0, cartesian_grid_communicator);
-			MPI_Send((B_array + (i * B_local_block_size)), B_local_block_size, MPI_DOUBLE, i, 0, cartesian_grid_communicator);
-		}
-		for(i = 0; i < A_local_block_size; i++){
-			A_local_block[i] = A_array[i];
-		}
-		for(i = 0; i < B_local_block_size; i++){
-			B_local_block[i] = B_array[i];
-		}
-	} else {
-		MPI_Recv(A_local_block, A_local_block_size, MPI_DOUBLE, 0, 0, cartesian_grid_communicator, &status);
-		MPI_Recv(B_local_block, B_local_block_size, MPI_DOUBLE, 0, 0, cartesian_grid_communicator, &status);
-	}
+	// rank zero sends a block to each process
+    MPI_Scatter(A_array, A_local_block_size, MPI_DOUBLE, 
+                A_local_block, A_local_block_size, MPI_DOUBLE, 
+                0, cartesian_grid_communicator);
+
+    MPI_Scatter(B_array, B_local_block_size, MPI_DOUBLE, 
+                B_local_block, B_local_block_size, MPI_DOUBLE, 
+                0, cartesian_grid_communicator);
 	
     //Initial matrix alignment for A and B
         int shift_source, shift_destination;
@@ -230,18 +214,9 @@ int main (int argc, char **argv) {
 
     double end_total = MPI_Wtime() - start_total;
 	// get C parts from other processes at rank 0
-	if(rank == 0) {
-		for(i = 0; i < A_local_block_rows * B_local_block_columns; i++){
-			C_array[i] = C_local_block[i];
-		}
-		int i;
-		for(i = 1; i < size; i++){
-			MPI_Recv(C_array + (i * A_local_block_rows * B_local_block_columns), A_local_block_rows * B_local_block_columns, 
-				MPI_DOUBLE, i, 0, cartesian_grid_communicator, &status);
-		}
-	} else {
-		MPI_Send(C_local_block, A_local_block_rows * B_local_block_columns, MPI_DOUBLE, 0, 0, cartesian_grid_communicator);
-	}
+    MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE, 
+                C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
+                0, cartesian_grid_communicator);
 
 	// generating output at rank 0
 	if (rank == 0) {
@@ -266,24 +241,24 @@ int main (int argc, char **argv) {
 
 		if (argc == 4){
 			// present results on the screen
-			printf("\nA( %d x %d ):\n", A_rows, A_columns);
-			for(row = 0; row < A_rows; row++) {
-				for(column = 0; column < A_columns; column++)
-					printf ("%7.3f ", A[row][column]);
-				printf ("\n");
-			}
-			printf("\nB( %d x %d ):\n", B_rows, B_columns);
-			for(row = 0; row < B_rows; row++){
-				for(column = 0; column < B_columns; column++)
-					printf("%7.3f ", B[row][column]);
-				printf("\n");
-			}
-			printf("\nC( %d x %d ) = AxB:\n", A_rows, B_columns);
-			for(row = 0; row < A_rows; row++){
-				for(column = 0; column < B_columns; column++)
-					printf("%7.3f ",C[row][column]);
-				printf("\n");
-			}
+	//		printf("\nA( %d x %d ):\n", A_rows, A_columns);
+	//		for(row = 0; row < A_rows; row++) {
+	//			for(column = 0; column < A_columns; column++)
+	//				printf ("%7.3f ", A[row][column]);
+	//			printf ("\n");
+	//		}
+	//		printf("\nB( %d x %d ):\n", B_rows, B_columns);
+	//		for(row = 0; row < B_rows; row++){
+	//			for(column = 0; column < B_columns; column++)
+	//				printf("%7.3f ", B[row][column]);
+	//			printf("\n");
+	//		}
+	//		printf("\nC( %d x %d ) = AxB:\n", A_rows, B_columns);
+	//		for(row = 0; row < A_rows; row++){
+	//			for(column = 0; column < B_columns; column++)
+	//				printf("%7.3f ",C[row][column]);
+	//			printf("\n");
+	//		}
 
 
 			printf("\nPerforming serial consistency check. Be patient...\n");
@@ -296,12 +271,12 @@ int main (int argc, char **argv) {
 					for(k=0; k<B_rows; k++){
 						temp += A[i][k] * B[k][j];
 					}
-					printf("%7.3f ", temp);
+//					printf("%7.3f ", temp);
 					if(temp != C[i][j]){
 						pass = 0;
 					}
 				}
-				printf("\n");
+//				printf("\n");
 			}
 			if (pass) printf("Consistency check: PASS\n");
 			else printf("Consistency check: FAIL\n");

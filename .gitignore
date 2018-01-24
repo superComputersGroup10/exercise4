@@ -4,3 +4,4 @@ random_matrix/*
 *.swap
 *.swp
 *.swo
+test/*

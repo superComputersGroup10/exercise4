@@ -14,8 +14,8 @@ def main():
         with open(args.input, "r") as ascii_file:
             for line in ascii_file:
                 numbers = [int(n) for n in line.replace("\n", "").split("\t")]
-                print(numbers)
-            bin_file.write(struct.pack('i', 1000))
+                for n in numbers:
+                    bin_file.write(struct.pack('i', n))
 
 
 

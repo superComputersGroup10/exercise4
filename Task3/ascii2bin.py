@@ -13,7 +13,7 @@ def main():
     with open(args.output, "wb") as bin_file:
         with open(args.input, "r") as ascii_file:
             for line in ascii_file:
-                numbers = [int(n) for n in line.replace("\n", "").split("\t")]
+                numbers = [int(n) for n in line.replace("\n", "").split("\t") if n.isdecimal()]
                 for n in numbers:
                     bin_file.write(struct.pack('i', n))
 

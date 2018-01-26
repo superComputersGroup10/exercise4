@@ -4,6 +4,14 @@ import argparse
 import struct
 
 
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+
+
 def main():
     parser = argparse.ArgumentParser(description="Converts the input matrix from ASCII to binary")
     parser.add_argument("-i", "--input", help="Input ascii matrix file")
@@ -13,7 +21,7 @@ def main():
     with open(args.output, "wb") as bin_file:
         with open(args.input, "r") as ascii_file:
             for line in ascii_file:
-                numbers = [float(n) for n in line.replace("\n", "").split("\t") if n.isdecimal()]
+                numbers = [float(n) for n in line.replace("\n", "").split("\t") if isfloat(n)]
                 for n in numbers:
                     bin_file.write(struct.pack('d', n))
 

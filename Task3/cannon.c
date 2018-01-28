@@ -4,11 +4,9 @@
 #include <string.h>
 #include "mpi.h"
 
-#define DIM 2 // Dimension
-
 int main (int argc, char **argv) {
     FILE *fp;
-    double **A = NULL, **B = NULL, **C = NULL, *A_array = NULL, *B_array = NULL, *C_array = NULL;
+    double **A = NULL, **B = NULL, **C = NULL, *C_array = NULL;
     double *A_local_block = NULL, *B_local_block = NULL, *C_local_block = NULL;
     int A_rows, A_columns, A_local_block_rows, A_local_block_columns, A_local_block_size;
     int B_rows, B_columns, B_local_block_rows, B_local_block_columns, B_local_block_size;
@@ -136,24 +134,6 @@ int main (int argc, char **argv) {
     // full arrays only needed at root
     if(rank == 0){
         C_array = (double *) malloc(sizeof(double) * A_rows * B_columns);
-        // generate the 1D arrays of the matrices at root
-       /* int row, column, i, j;
-        for (i = 0; i < sqrt_size; i++){
-            for (j = 0; j < sqrt_size; j++){
-                for (row = 0; row < A_local_block_rows; row++){
-                    for (column = 0; column < A_local_block_columns; column++){
-                        A_array[((i * sqrt_size + j) * A_local_block_size) + (row * A_local_block_columns) + column]
-                            = A[i * A_local_block_rows + row][j * A_local_block_columns + column];
-                    }
-                }
-                for (row = 0; row < B_local_block_rows; row++){
-                    for (column = 0; column < B_local_block_columns; column++){
-                        B_array[((i * sqrt_size + j) * B_local_block_size) + (row * B_local_block_columns) + column]
-                            = B[i * B_local_block_rows + row][j * B_local_block_columns + column];
-                    }
-                }
-            }
-        }*/
         // allocate output matrix C
         C = (double **) malloc(A_rows * sizeof(double *));
         for(i=0; i<A_rows ;i++){

@@ -4,6 +4,8 @@
 #include <string.h>
 #include "mpi.h"
 
+#define DIM 2 // Dimension
+
 int main (int argc, char **argv) {
     FILE *fp;
     double **A = NULL, **B = NULL, **C = NULL, *A_array = NULL, *B_array = NULL, *C_array = NULL;
@@ -45,84 +47,83 @@ int main (int argc, char **argv) {
     remain_dims[1] = 0; //ignore the 1st direction
     MPI_Cart_sub(cartesian_grid_communicator, remain_dims, &column_communicator);
 
-    // getting matrices from files at rank 0 only
-    // example: mpiexec -n 64 ./cannon matrix1 matrix2 [test]
-    if (rank == 0){
-        int row, column;
 
-        //scans the first matrix
-        if ((fp = fopen (argv[1], "r")) != NULL){
-            fscanf(fp, "%d %d\n", &matrices_a_b_dimensions[0], &matrices_a_b_dimensions[1]);
-            A = (double **) malloc (matrices_a_b_dimensions[0] * sizeof(double *));
-            for (row = 0; row < matrices_a_b_dimensions[0]; row++){
-                A[row] = (double *) malloc(matrices_a_b_dimensions[1] * sizeof(double));
-                for (column = 0; column < matrices_a_b_dimensions[1]; column++)
-                    fscanf(fp, "%lf", &A[row][column]);
-            }
-            fclose(fp);
-        } else {
-            if(rank == 0) fprintf(stderr, "error opening file for matrix A (%s)\n", argv[1]);
-            MPI_Abort(MPI_COMM_WORLD, -1);
-        }
+    // READ MATRICES
+    int distribs[2], dargs[2], psizes[2];
+    MPI_Datatype filetype_A, filetype_B, contig;
+    MPI_Offset disp;
+    MPI_File fh;
 
-        //scans the second matrix
-        if((fp = fopen (argv[2], "r")) != NULL){
-            fscanf(fp, "%d %d\n", &matrices_a_b_dimensions[2], &matrices_a_b_dimensions[3]);
-            B = (double **) malloc (matrices_a_b_dimensions[2] * sizeof(double *));
-            for(row = 0; row < matrices_a_b_dimensions[2]; row++){
-                B[row] = (double *) malloc(matrices_a_b_dimensions[3] * sizeof(double *));
-                for(column = 0; column < matrices_a_b_dimensions[3]; column++)
-                    fscanf(fp, "%lf", &B[row][column]);
-            }
-            fclose(fp);
-        } else {
-            if(rank == 0) fprintf(stderr, "error opening file for matrix B (%s)\n", argv[2]);
-            MPI_Abort(MPI_COMM_WORLD, -1);
-        }
+    distribs[0] = MPI_DISTRIBUTE_BLOCK; /* block distribution */
+    distribs[1] = MPI_DISTRIBUTE_BLOCK; /* block distribution */
+    dargs[0] = MPI_DISTRIBUTE_DFLT_DARG; /* default block size */
+    dargs[1] = MPI_DISTRIBUTE_DFLT_DARG; /* default block size */
+    psizes[0] = sqrt_size; /* no. of processes in vertical dimension of process grid */
+    psizes[1] = sqrt_size; /* no. of processes in horizontal dimension of process grid */
 
-        // need to check that the multiplication is possible given dimensions
-        // matrices_a_b_dimensions[0] = row size of A
-        // matrices_a_b_dimensions[1] = column size of A
-        // matrices_a_b_dimensions[2] = row size of B
-        // matrices_a_b_dimensions[3] = column size of B
-        if(matrices_a_b_dimensions[1] != matrices_a_b_dimensions[2]){
-            if(rank == 0) fprintf(stderr, "A's column size (%d) must match B's row size (%d)\n",
-                    matrices_a_b_dimensions[1], matrices_a_b_dimensions[2]);
-            MPI_Abort(MPI_COMM_WORLD, -1);
-        }
+    disp = 2 * sizeof(int); // First two integers indicate #rows and #columns
 
-        // this implementation is limited to cases where the matrices can be partitioned perfectly
-        if( matrices_a_b_dimensions[0] % sqrt_size != 0
-                || matrices_a_b_dimensions[1] % sqrt_size != 0
-                || matrices_a_b_dimensions[2] % sqrt_size != 0
-                || matrices_a_b_dimensions[3] % sqrt_size != 0 ){
-            if(rank == 0) fprintf(stderr, "cannot distribute work evenly among processe\n"
-                    "all dimensions (A: r:%d c:%d; B: r:%d c:%d) need to be divisible by %d\n",
-                    matrices_a_b_dimensions[0],matrices_a_b_dimensions[1],
-                    matrices_a_b_dimensions[2],matrices_a_b_dimensions[3], sqrt_size );
-            MPI_Abort(MPI_COMM_WORLD, -1);
-        }
-    }
+    // Read Matrix A
+    MPI_File_open(MPI_COMM_WORLD, argv[1],  MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+    MPI_File_read_all(fh, &matrices_a_b_dimensions[0], 2, MPI_INT, MPI_STATUS_IGNORE);
 
-    // rank zero send dimensions to all peers
-    MPI_Bcast(matrices_a_b_dimensions, 4, MPI_INT, 0, cartesian_grid_communicator);
+    MPI_Type_create_darray(size, rank, 2, &matrices_a_b_dimensions[0], distribs, dargs,
+            psizes, MPI_ORDER_C, MPI_DOUBLE, &filetype_A);
+    MPI_Type_commit(&filetype_A);
+    MPI_File_set_view(fh, disp, MPI_DOUBLE, filetype_A, "native", MPI_INFO_NULL);
 
     A_rows = matrices_a_b_dimensions[0];
     A_columns = matrices_a_b_dimensions[1];
-    B_rows = matrices_a_b_dimensions[2];
-    B_columns = matrices_a_b_dimensions[3];
-
-    // local metadata for A
     A_local_block_rows = (int) (A_rows / sqrt_size);
     A_local_block_columns = (int) (A_columns / sqrt_size);
     A_local_block_size = A_local_block_rows * A_local_block_columns;
     A_local_block = (double *) malloc (A_local_block_size * sizeof(double));
+    MPI_File_read_all(fh, A_local_block, A_local_block_size, MPI_DOUBLE, MPI_STATUS_IGNORE);
 
-    // local metadata for B
+    MPI_File_close(&fh);
+
+    // Read Matrix B
+    MPI_File_open(MPI_COMM_WORLD, argv[2],  MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+    MPI_File_read_all(fh, &matrices_a_b_dimensions[2], 2, MPI_INT, MPI_STATUS_IGNORE);
+
+    MPI_Type_create_darray(size, rank, 2, &matrices_a_b_dimensions[2], distribs, dargs,
+            psizes, MPI_ORDER_C, MPI_DOUBLE, &filetype_B);
+    MPI_Type_commit(&filetype_B);
+    MPI_File_set_view(fh, disp, MPI_DOUBLE, filetype_B, "native", MPI_INFO_NULL);
+
+    B_rows = matrices_a_b_dimensions[2];
+    B_columns = matrices_a_b_dimensions[3];
     B_local_block_rows = (int) B_rows / sqrt_size;
     B_local_block_columns = (int) B_columns / sqrt_size;
     B_local_block_size = B_local_block_rows * B_local_block_columns;
     B_local_block = (double *) malloc (B_local_block_size * sizeof(double));
+    MPI_File_read_all(fh, B_local_block, B_local_block_size, MPI_DOUBLE, MPI_STATUS_IGNORE);
+
+    MPI_File_close(&fh);
+
+    // need to check that the multiplication is possible given dimensions
+    // matrices_a_b_dimensions[0] = row size of A
+    // matrices_a_b_dimensions[1] = column size of A
+    // matrices_a_b_dimensions[2] = row size of B
+    // matrices_a_b_dimensions[3] = column size of B
+    if(matrices_a_b_dimensions[1] != matrices_a_b_dimensions[2]){
+        if(rank == 0) fprintf(stderr, "A's column size (%d) must match B's row size (%d)\n",
+                matrices_a_b_dimensions[1], matrices_a_b_dimensions[2]);
+        MPI_Abort(MPI_COMM_WORLD, -1);
+    }
+
+    // this implementation is limited to cases where the matrices can be partitioned perfectly
+    if( matrices_a_b_dimensions[0] % sqrt_size != 0
+            || matrices_a_b_dimensions[1] % sqrt_size != 0
+            || matrices_a_b_dimensions[2] % sqrt_size != 0
+            || matrices_a_b_dimensions[3] % sqrt_size != 0 ){
+        if(rank == 0) fprintf(stderr, "cannot distribute work evenly among processe\n"
+                "all dimensions (A: r:%d c:%d; B: r:%d c:%d) need to be divisible by %d\n",
+                matrices_a_b_dimensions[0],matrices_a_b_dimensions[1],
+                matrices_a_b_dimensions[2],matrices_a_b_dimensions[3], sqrt_size );
+        MPI_Abort(MPI_COMM_WORLD, -1);
+    }
+
 
     // local metadata for C
     C_local_block = (double *) malloc (A_local_block_rows * B_local_block_columns * sizeof(double));
@@ -134,11 +135,9 @@ int main (int argc, char **argv) {
 
     // full arrays only needed at root
     if(rank == 0){
-        A_array = (double *) malloc(sizeof(double) * A_rows * A_columns);
-        B_array = (double *) malloc(sizeof(double) * B_rows * B_columns);
         C_array = (double *) malloc(sizeof(double) * A_rows * B_columns);
         // generate the 1D arrays of the matrices at root
-        int row, column, i, j;
+       /* int row, column, i, j;
         for (i = 0; i < sqrt_size; i++){
             for (j = 0; j < sqrt_size; j++){
                 for (row = 0; row < A_local_block_rows; row++){
@@ -154,7 +153,7 @@ int main (int argc, char **argv) {
                     }
                 }
             }
-        }
+        }*/
         // allocate output matrix C
         C = (double **) malloc(A_rows * sizeof(double *));
         for(i=0; i<A_rows ;i++){
@@ -162,26 +161,17 @@ int main (int argc, char **argv) {
         }
     }
 
-    // rank zero sends a block to each process
-    MPI_Scatter(A_array, A_local_block_size, MPI_DOUBLE,
-                A_local_block, A_local_block_size, MPI_DOUBLE,
-                0, cartesian_grid_communicator);
-
-    MPI_Scatter(B_array, B_local_block_size, MPI_DOUBLE,
-                B_local_block, B_local_block_size, MPI_DOUBLE,
-                0, cartesian_grid_communicator);
-
     //Initial matrix alignment for A and B
-        int shift_source, shift_destination;
-        MPI_Cart_shift(row_communicator, 0, -coordinates[0], &shift_source, &shift_destination);
-        MPI_Sendrecv_replace(A_local_block, A_local_block_size, MPI_DOUBLE,
-                  shift_destination, 0,
-                 shift_source, 0, row_communicator, &status);
+    int shift_source, shift_destination;
+    MPI_Cart_shift(row_communicator, 0, -coordinates[0], &shift_source, &shift_destination);
+    MPI_Sendrecv_replace(A_local_block, A_local_block_size, MPI_DOUBLE,
+            shift_destination, 0,
+            shift_source, 0, row_communicator, &status);
 
-        MPI_Cart_shift(column_communicator, 0, -coordinates[1], &shift_source, &shift_destination);
-        MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE,
-                 shift_destination, 0,
-                 shift_source, 0, column_communicator, &status);
+    MPI_Cart_shift(column_communicator, 0, -coordinates[1], &shift_source, &shift_destination);
+    MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE,
+            shift_destination, 0,
+            shift_source, 0, column_communicator, &status);
 
     // cannon's algorithm
     int cannon_block_cycle;
@@ -239,53 +229,32 @@ int main (int argc, char **argv) {
         printf("MPI time:         %lf\n", mpi_time);
         printf("Total time:       %lf\n", end_total);
 
-        if (argc == 4){
-            // present results on the screen
-    //      printf("\nA( %d x %d ):\n", A_rows, A_columns);
-    //      for(row = 0; row < A_rows; row++) {
-    //          for(column = 0; column < A_columns; column++)
-    //              printf ("%7.3f ", A[row][column]);
-    //          printf ("\n");
-    //      }
-    //      printf("\nB( %d x %d ):\n", B_rows, B_columns);
-    //      for(row = 0; row < B_rows; row++){
-    //          for(column = 0; column < B_columns; column++)
-    //              printf("%7.3f ", B[row][column]);
-    //          printf("\n");
-    //      }
-    //      printf("\nC( %d x %d ) = AxB:\n", A_rows, B_columns);
-    //      for(row = 0; row < A_rows; row++){
-    //          for(column = 0; column < B_columns; column++)
-    //              printf("%7.3f ",C[row][column]);
-    //          printf("\n");
-    //      }
-
-
+        // TODO: If consistency check, then read the file and create a new Matrix Datatype to perform the
+        // checking.
+        /*if (argc == 4){
             printf("\nPerforming serial consistency check. Be patient...\n");
             fflush(stdout);
             int pass = 1;
             double temp;
-            for(i=0; i<A_rows; i++){ //haha .. row-column-k form. Old school! :P
+            for(i=0; i<A_rows; i++){
                 for(j=0; j<B_columns; j++){
                     temp = 0;
                     for(k=0; k<B_rows; k++){
                         temp += A[i][k] * B[k][j];
                     }
-//                  printf("%7.3f ", temp);
                     if(temp != C[i][j]){
                         pass = 0;
                     }
                 }
-//              printf("\n");
             }
             if (pass) printf("Consistency check: PASS\n");
             else printf("Consistency check: FAIL\n");
-        }
+        }*/
     }
 
     // free all memory
     if(rank == 0){
-        int i;
+    /*    int i;
         for(i = 0; i < A_rows; i++){
             free(A[i]);
         }
@@ -296,10 +265,8 @@ int main (int argc, char **argv) {
             free(C[i]);
         }
         free(A);
-        free(B);
+        free(B);*/
         free(C);
-        free(A_array);
-        free(B_array);
         free(C_array);
     }
     free(A_local_block);

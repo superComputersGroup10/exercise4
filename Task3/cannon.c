@@ -211,16 +211,30 @@ int main (int argc, char **argv) {
 
         // TODO: If consistency check, then read the file and create a new Matrix Datatype to perform the
         // checking.
-        /*if (argc == 4){
+        if (argc == 4){
             printf("\nPerforming serial consistency check. Be patient...\n");
             fflush(stdout);
             int pass = 1;
             double temp;
+
+            double * A_array = (double *) malloc(A_rows * A_columns * sizeof(double));
+            double * B_array = (double *) malloc(B_rows * B_columns * sizeof(double));
+
+            //  Read again from file
+            MPI_File_open(MPI_COMM_SELF, argv[1],  MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+            MPI_File_read_at(fh, disp, A_array, A_rows * A_columns, MPI_DOUBLE, MPI_STATUS_IGNORE);
+            MPI_File_close(&fh);
+
+            MPI_File_open(MPI_COMM_SELF, argv[2],  MPI_MODE_RDONLY, MPI_INFO_NULL, &fh);
+            MPI_File_read_at(fh, disp, B_array, B_rows * B_columns, MPI_DOUBLE, MPI_STATUS_IGNORE);
+            MPI_File_close(&fh);
+
+            // Checking
             for(i=0; i<A_rows; i++){
                 for(j=0; j<B_columns; j++){
                     temp = 0;
                     for(k=0; k<B_rows; k++){
-                        temp += A[i][k] * B[k][j];
+                        temp += A_array[i*A_columns + k] * B_array[k*B_columns + j];
                     }
                     if(temp != C[i][j]){
                         pass = 0;
@@ -229,30 +243,26 @@ int main (int argc, char **argv) {
             }
             if (pass) printf("Consistency check: PASS\n");
             else printf("Consistency check: FAIL\n");
-        }*/
+
+            // Free memory
+            free(A_array);
+            free(B_array);
+        }
     }
 
     // free all memory
     if(rank == 0){
-    /*    int i;
-        for(i = 0; i < A_rows; i++){
-            free(A[i]);
-        }
-        for(i = 0; i < B_rows; i++){
-            free(B[i]);
-        }
-        for(i = 0; i < A_rows; i++){
+        for(int i = 0; i < A_rows; i++)
             free(C[i]);
-        }
-        free(A);
-        free(B);*/
         free(C);
         free(C_array);
     }
+
     free(A_local_block);
     free(B_local_block);
     free(C_local_block);
 
     // finalize MPI
     MPI_Finalize();
+    return 0;
 }

@@ -1,5 +1,5 @@
 #!/bin/bash 
-#@ wall_clock_limit = 00:025:00
+#@ wall_clock_limit = 00:25:00
 #@ job_name = pos-cannon-mpi-ibm
 #@ job_type = Parallel
 #@ output = cannon_64_$(jobid).out
@@ -17,7 +17,7 @@
 . /etc/profile
 . /etc/profile.d/modules.sh
 
-	for k in {0..5}
+	for k in {0..6}
 	do	
 		SUPERMUC_PHASE="Phase1"
 		CURRENT_SIZE=$((2**(6+$k)))
@@ -27,16 +27,8 @@
 		for i in {1..20}
 		do
 			echo -e "test " $i " on A($MATRIX) and B($MATRIX)" >> $WRITE_FILE
-			mpiexec -n 64 ./cannon ../cannon_matrices/$MATRIX-1.in ../cannon_matrices/$MATRIX-2.in  >> $WRITE_FILE
+			mpiexec -n 64 ./cannon ../cannon_matrices_bin/$MATRIX-1.in ../cannon_matrices_bin/$MATRIX-2.in >> $WRITE_FILE
 			echo -e '\n' >> $WRITE_FILE
 		done
 	done
-
-date
-for i in {1..20}
-do
-	echo -e "test " $i " on A(4096x4096) and B(4096x4096)" >> $SUPERMUC_PHASE/result_4096x4096.csv
-	mpiexec -n 64 ./cannon ../cannon_matrices/4096x4096-1.in ../cannon_matrices/4096x4096-2.in >> $SUPERMUC_PHASE/result_4096x4096.csv
-	echo -e '\n' >> $SUPERMUC_PHASE/result_4096x4096.csv
-done
 

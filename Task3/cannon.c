@@ -48,7 +48,7 @@ int main (int argc, char **argv) {
 
     // READ MATRICES
     int distribs[2], dargs[2], psizes[2];
-    MPI_Datatype filetype_A, filetype_B, contig;
+    MPI_Datatype filetype_A, filetype_B;
     MPI_Offset disp;
     MPI_File fh;
 
@@ -187,6 +187,24 @@ int main (int argc, char **argv) {
     MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
                 C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
                 0, cartesian_grid_communicator);
+
+    // TODO: Write matrix here
+    MPI_Datatype filetype_C;
+    const char filename[] = "output_matrix";
+    int size_C[2];
+    size_C[0] = A_rows;
+    size_C[1] = B_columns;
+    const int C_local_block_size = A_local_block_rows * B_local_block_columns;
+
+    MPI_File_open(MPI_COMM_WORLD, filename,  MPI_MODE_WRONLY | MPI_MODE_CREATE, MPI_INFO_NULL, &fh);
+    // Only rank 0 writes the header
+    if(rank == 0) MPI_File_write(fh, size_C, 2, MPI_INT, MPI_STATUS_IGNORE);
+    MPI_Type_create_darray(size, rank, 2, size_C, distribs, dargs,
+            psizes, MPI_ORDER_C, MPI_DOUBLE, &filetype_C);
+    MPI_Type_commit(&filetype_C);
+    MPI_File_set_view(fh, disp, MPI_DOUBLE, filetype_C, "native", MPI_INFO_NULL);
+    MPI_File_write_all(fh, C_local_block, C_local_block_size, MPI_DOUBLE, MPI_STATUS_IGNORE);
+    MPI_File_close(&fh);
 
     // generating output at rank 0
     if (rank == 0) {

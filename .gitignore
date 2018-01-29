@@ -6,3 +6,5 @@ random_matrix/*
 *.swo
 test/*
 Task3/cannon
+.ipynb_checkpoints/
+*.ipynb

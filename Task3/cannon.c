@@ -182,7 +182,6 @@ int main (int argc, char **argv) {
         mpi_time += MPI_Wtime() - start;
     }
 
-    double end_total = MPI_Wtime() - start_total;
     // get C parts from other processes at rank 0
     MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
                 C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
@@ -205,6 +204,8 @@ int main (int argc, char **argv) {
     MPI_File_set_view(fh, disp, MPI_DOUBLE, filetype_C, "native", MPI_INFO_NULL);
     MPI_File_write_all(fh, C_local_block, C_local_block_size, MPI_DOUBLE, MPI_STATUS_IGNORE);
     MPI_File_close(&fh);
+
+    double end_total = MPI_Wtime() - start_total;
 
     // generating output at rank 0
     if (rank == 0) {

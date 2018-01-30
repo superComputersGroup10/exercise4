@@ -188,7 +188,7 @@ int main (int argc, char **argv) {
                 C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
                 0, cartesian_grid_communicator);
 
-    // TODO: Write matrix here
+    // Write output matrix
     MPI_Datatype filetype_C;
     const char filename[] = "output_matrix";
     int size_C[2];
@@ -227,8 +227,6 @@ int main (int argc, char **argv) {
         printf("MPI time:         %lf\n", mpi_time);
         printf("Total time:       %lf\n", end_total);
 
-        // TODO: If consistency check, then read the file and create a new Matrix Datatype to perform the
-        // checking.
         if (argc == 4){
             printf("\nPerforming serial consistency check. Be patient...\n");
             fflush(stdout);

@@ -27,7 +27,7 @@
 		for i in {1..20}
 		do
 			echo -e "test " $i " on A($MATRIX) and B($MATRIX)" >> $WRITE_FILE
-			mpiexec -n 64 ./cannon ../cannon_matrices_bin/$MATRIX-1.in ../cannon_matrices_bin/$MATRIX-2.in >> $WRITE_FILE
+			mpiexec -n 64 ./cannon ../cannon_matrices_bin/$MATRIX-1.in ../cannon_matrices_bin/$MATRIX-2.in /dev/null >> $WRITE_FILE
 			echo -e '\n' >> $WRITE_FILE
 		done
 	done

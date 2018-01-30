@@ -29,6 +29,12 @@ int main (int argc, char **argv) {
         MPI_Abort(MPI_COMM_WORLD, -1);
     }
 
+    if(argc < 4){
+        if( rank == 0 ) perror("Required to run with at least 3 parameters: <matrix_A> <matrix_B>"\
+                " <output_file>\n");
+        MPI_Abort(MPI_COMM_WORLD, -1);
+    }
+
     // create a 2D cartesian grid
     dimensions[0] = dimensions[1] = sqrt_size;
     periods[0] = periods[1] = 1;
@@ -131,15 +137,7 @@ int main (int argc, char **argv) {
         C_local_block[i] = 0;
     }
 
-    // full arrays only needed at root
-    if(rank == 0){
-        C_array = (double *) malloc(sizeof(double) * A_rows * B_columns);
-        // allocate output matrix C
-        C = (double **) malloc(A_rows * sizeof(double *));
-        for(i=0; i<A_rows ;i++){
-            C[i] = (double *) malloc(B_columns * sizeof(double));
-        }
-    }
+
 
     //Initial matrix alignment for A and B
     int shift_source, shift_destination;
@@ -152,6 +150,7 @@ int main (int argc, char **argv) {
     MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE,
             shift_destination, 0,
             shift_source, 0, column_communicator, &status);
+    double end_initialization = MPI_Wtime() - start_total;
 
     // cannon's algorithm
     int cannon_block_cycle;
@@ -182,21 +181,15 @@ int main (int argc, char **argv) {
         mpi_time += MPI_Wtime() - start;
     }
 
-    double end_total = MPI_Wtime() - start_total;
-    // get C parts from other processes at rank 0
-    MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
-                C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
-                0, cartesian_grid_communicator);
 
-    // TODO: Write matrix here
+    // Write output matrix
     MPI_Datatype filetype_C;
-    const char filename[] = "output_matrix";
     int size_C[2];
     size_C[0] = A_rows;
     size_C[1] = B_columns;
     const int C_local_block_size = A_local_block_rows * B_local_block_columns;
 
-    MPI_File_open(MPI_COMM_WORLD, filename,  MPI_MODE_WRONLY | MPI_MODE_CREATE, MPI_INFO_NULL, &fh);
+    MPI_File_open(MPI_COMM_WORLD, argv[3],  MPI_MODE_WRONLY | MPI_MODE_CREATE, MPI_INFO_NULL, &fh);
     // Only rank 0 writes the header
     if(rank == 0) MPI_File_write(fh, size_C, 2, MPI_INT, MPI_STATUS_IGNORE);
     MPI_Type_create_darray(size, rank, 2, size_C, distribs, dargs,
@@ -206,30 +199,48 @@ int main (int argc, char **argv) {
     MPI_File_write_all(fh, C_local_block, C_local_block_size, MPI_DOUBLE, MPI_STATUS_IGNORE);
     MPI_File_close(&fh);
 
+    double end_total = MPI_Wtime() - start_total;
+
     // generating output at rank 0
     if (rank == 0) {
-        // convert the ID array into the actual C matrix
-        int i, j, k, row, column;
-        for (i = 0; i < sqrt_size; i++){  // block row index
-            for (j = 0; j < sqrt_size; j++){ // block column index
-                for (row = 0; row < A_local_block_rows; row++){
-                    for (column = 0; column < B_local_block_columns; column++){
-                        C[i * A_local_block_rows + row] [j * B_local_block_columns + column] =
-                            C_array[((i * sqrt_size + j) * A_local_block_rows * B_local_block_columns)
-                            + (row * B_local_block_columns) + column];
-                    }
-                }
-            }
-        }
-
         printf("(%d,%d)x(%d,%d)=(%d,%d)\n", A_rows, A_columns, B_rows, B_columns, A_rows, B_columns);
+        printf("Initialization time: %lf\n", end_initialization);
         printf("Computation time: %lf\n", compute_time);
         printf("MPI time:         %lf\n", mpi_time);
         printf("Total time:       %lf\n", end_total);
+    }
 
-        // TODO: If consistency check, then read the file and create a new Matrix Datatype to perform the
-        // checking.
-        if (argc == 4){
+    if (argc == 5){
+        // full array only needed at root
+        if(rank == 0){
+            C_array = (double *) malloc(sizeof(double) * A_rows * B_columns);
+            // allocate output matrix C
+            C = (double **) malloc(A_rows * sizeof(double *));
+            for(i=0; i<A_rows ;i++){
+                C[i] = (double *) malloc(B_columns * sizeof(double));
+            }
+        }
+        // get C parts from other processes at rank 0
+        MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
+                C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
+                0, cartesian_grid_communicator);
+
+        if (rank == 0){
+            // convert the ID array into the actual C matrix
+            int i, j, k, row, column;
+            for (i = 0; i < sqrt_size; i++){  // block row index
+                for (j = 0; j < sqrt_size; j++){ // block column index
+                    for (row = 0; row < A_local_block_rows; row++){
+                        for (column = 0; column < B_local_block_columns; column++){
+                            C[i * A_local_block_rows + row] [j * B_local_block_columns + column] =
+                                C_array[((i * sqrt_size + j) * A_local_block_rows * B_local_block_columns)
+                                + (row * B_local_block_columns) + column];
+                        }
+                    }
+                }
+            }
+
+
             printf("\nPerforming serial consistency check. Be patient...\n");
             fflush(stdout);
             int pass = 1;
@@ -263,19 +274,17 @@ int main (int argc, char **argv) {
             else printf("Consistency check: FAIL\n");
 
             // Free memory
+            for(int i = 0; i < A_rows; i++)
+                free(C[i]);
+            free(C);
+            free(C_array);
             free(A_array);
             free(B_array);
         }
     }
 
-    // free all memory
-    if(rank == 0){
-        for(int i = 0; i < A_rows; i++)
-            free(C[i]);
-        free(C);
-        free(C_array);
-    }
 
+    // free all memory
     free(A_local_block);
     free(B_local_block);
     free(C_local_block);

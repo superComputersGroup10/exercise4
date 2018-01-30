@@ -29,6 +29,12 @@ int main (int argc, char **argv) {
         MPI_Abort(MPI_COMM_WORLD, -1);
     }
 
+    if(argc < 4){
+        if( rank == 0 ) perror("Required to run with at least 3 parameters: <matrix_A> <matrix_B>"\
+                " <output_file>\n");
+        MPI_Abort(MPI_COMM_WORLD, -1);
+    }
+
     // create a 2D cartesian grid
     dimensions[0] = dimensions[1] = sqrt_size;
     periods[0] = periods[1] = 1;

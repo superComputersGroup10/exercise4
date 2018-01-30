@@ -131,15 +131,7 @@ int main (int argc, char **argv) {
         C_local_block[i] = 0;
     }
 
-    // full arrays only needed at root
-    if(rank == 0){
-        C_array = (double *) malloc(sizeof(double) * A_rows * B_columns);
-        // allocate output matrix C
-        C = (double **) malloc(A_rows * sizeof(double *));
-        for(i=0; i<A_rows ;i++){
-            C[i] = (double *) malloc(B_columns * sizeof(double));
-        }
-    }
+
 
     //Initial matrix alignment for A and B
     int shift_source, shift_destination;
@@ -182,10 +174,6 @@ int main (int argc, char **argv) {
         mpi_time += MPI_Wtime() - start;
     }
 
-    // get C parts from other processes at rank 0
-    MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
-                C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
-                0, cartesian_grid_communicator);
 
     // Write output matrix
     MPI_Datatype filetype_C;
@@ -209,26 +197,43 @@ int main (int argc, char **argv) {
 
     // generating output at rank 0
     if (rank == 0) {
-        // convert the ID array into the actual C matrix
-        int i, j, k, row, column;
-        for (i = 0; i < sqrt_size; i++){  // block row index
-            for (j = 0; j < sqrt_size; j++){ // block column index
-                for (row = 0; row < A_local_block_rows; row++){
-                    for (column = 0; column < B_local_block_columns; column++){
-                        C[i * A_local_block_rows + row] [j * B_local_block_columns + column] =
-                            C_array[((i * sqrt_size + j) * A_local_block_rows * B_local_block_columns)
-                            + (row * B_local_block_columns) + column];
-                    }
-                }
-            }
-        }
-
         printf("(%d,%d)x(%d,%d)=(%d,%d)\n", A_rows, A_columns, B_rows, B_columns, A_rows, B_columns);
         printf("Computation time: %lf\n", compute_time);
         printf("MPI time:         %lf\n", mpi_time);
         printf("Total time:       %lf\n", end_total);
+    }
 
-        if (argc == 4){
+    if (argc == 4){
+        // full array only needed at root
+        if(rank == 0){
+            C_array = (double *) malloc(sizeof(double) * A_rows * B_columns);
+            // allocate output matrix C
+            C = (double **) malloc(A_rows * sizeof(double *));
+            for(i=0; i<A_rows ;i++){
+                C[i] = (double *) malloc(B_columns * sizeof(double));
+            }
+        }
+        // get C parts from other processes at rank 0
+        MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
+                C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
+                0, cartesian_grid_communicator);
+
+        if (rank == 0){
+            // convert the ID array into the actual C matrix
+            int i, j, k, row, column;
+            for (i = 0; i < sqrt_size; i++){  // block row index
+                for (j = 0; j < sqrt_size; j++){ // block column index
+                    for (row = 0; row < A_local_block_rows; row++){
+                        for (column = 0; column < B_local_block_columns; column++){
+                            C[i * A_local_block_rows + row] [j * B_local_block_columns + column] =
+                                C_array[((i * sqrt_size + j) * A_local_block_rows * B_local_block_columns)
+                                + (row * B_local_block_columns) + column];
+                        }
+                    }
+                }
+            }
+
+
             printf("\nPerforming serial consistency check. Be patient...\n");
             fflush(stdout);
             int pass = 1;
@@ -262,19 +267,17 @@ int main (int argc, char **argv) {
             else printf("Consistency check: FAIL\n");
 
             // Free memory
+            for(int i = 0; i < A_rows; i++)
+                free(C[i]);
+            free(C);
+            free(C_array);
             free(A_array);
             free(B_array);
         }
     }
 
-    // free all memory
-    if(rank == 0){
-        for(int i = 0; i < A_rows; i++)
-            free(C[i]);
-        free(C);
-        free(C_array);
-    }
 
+    // free all memory
     free(A_local_block);
     free(B_local_block);
     free(C_local_block);

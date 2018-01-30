@@ -150,6 +150,7 @@ int main (int argc, char **argv) {
     MPI_Sendrecv_replace(B_local_block, B_local_block_size, MPI_DOUBLE,
             shift_destination, 0,
             shift_source, 0, column_communicator, &status);
+    double end_initialization = MPI_Wtime() - start_total;
 
     // cannon's algorithm
     int cannon_block_cycle;
@@ -203,6 +204,7 @@ int main (int argc, char **argv) {
     // generating output at rank 0
     if (rank == 0) {
         printf("(%d,%d)x(%d,%d)=(%d,%d)\n", A_rows, A_columns, B_rows, B_columns, A_rows, B_columns);
+        printf("Initialization time: %lf\n", end_initialization);
         printf("Computation time: %lf\n", compute_time);
         printf("MPI time:         %lf\n", mpi_time);
         printf("Total time:       %lf\n", end_total);

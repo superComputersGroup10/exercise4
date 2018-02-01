@@ -1,0 +1,160 @@
+test  1  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.055330
+Computation time: 0.000036
+MPI time:         0.000552
+Total time:       0.055910
+
+
+test  2  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010897
+Computation time: 0.000036
+MPI time:         0.000578
+Total time:       0.011504
+
+
+test  3  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011093
+Computation time: 0.000035
+MPI time:         0.000573
+Total time:       0.011691
+
+
+test  4  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011052
+Computation time: 0.000038
+MPI time:         0.000595
+Total time:       0.011672
+
+
+test  5  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011600
+Computation time: 0.000037
+MPI time:         0.000579
+Total time:       0.012209
+
+
+test  6  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010789
+Computation time: 0.000036
+MPI time:         0.000594
+Total time:       0.011405
+
+
+test  7  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011054
+Computation time: 0.000038
+MPI time:         0.000584
+Total time:       0.011654
+
+
+test  8  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010883
+Computation time: 0.000036
+MPI time:         0.000611
+Total time:       0.011507
+
+
+test  9  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010822
+Computation time: 0.000036
+MPI time:         0.000541
+Total time:       0.011392
+
+
+test  10  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.013494
+Computation time: 0.000036
+MPI time:         0.000536
+Total time:       0.014060
+
+
+test  11  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010893
+Computation time: 0.000036
+MPI time:         0.000594
+Total time:       0.011511
+
+
+test  12  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010877
+Computation time: 0.000037
+MPI time:         0.000569
+Total time:       0.011475
+
+
+test  13  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011522
+Computation time: 0.000036
+MPI time:         0.000624
+Total time:       0.012112
+
+
+test  14  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011117
+Computation time: 0.000037
+MPI time:         0.000554
+Total time:       0.011693
+
+
+test  15  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010783
+Computation time: 0.000037
+MPI time:         0.000592
+Total time:       0.011395
+
+
+test  16  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010905
+Computation time: 0.000036
+MPI time:         0.000557
+Total time:       0.011487
+
+
+test  17  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010911
+Computation time: 0.000036
+MPI time:         0.000579
+Total time:       0.011517
+
+
+test  18  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010914
+Computation time: 0.000037
+MPI time:         0.000598
+Total time:       0.011528
+
+
+test  19  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.010890
+Computation time: 0.000037
+MPI time:         0.000557
+Total time:       0.011476
+
+
+test  20  on A(128x128) and B(128x128)
+(128,128)x(128,128)=(128,128)
+Initialization time: 0.011023
+Computation time: 0.000036
+MPI time:         0.000522
+Total time:       0.011569
+
+

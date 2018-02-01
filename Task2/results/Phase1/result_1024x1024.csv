@@ -1,0 +1,160 @@
+test  1  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.490196
+Computation time: 0.017993
+MPI time:         0.021796
+Total time:       0.529660
+
+
+test  2  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404529
+Computation time: 0.017862
+MPI time:         0.023454
+Total time:       0.445472
+
+
+test  3  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404800
+Computation time: 0.018636
+MPI time:         0.021636
+Total time:       0.444802
+
+
+test  4  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.405403
+Computation time: 0.017894
+MPI time:         0.022145
+Total time:       0.445209
+
+
+test  5  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.406513
+Computation time: 0.017748
+MPI time:         0.022149
+Total time:       0.445932
+
+
+test  6  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.406277
+Computation time: 0.017897
+MPI time:         0.021441
+Total time:       0.445253
+
+
+test  7  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.405111
+Computation time: 0.018192
+MPI time:         0.021499
+Total time:       0.444544
+
+
+test  8  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404624
+Computation time: 0.017953
+MPI time:         0.023060
+Total time:       0.445324
+
+
+test  9  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.407759
+Computation time: 0.017880
+MPI time:         0.022812
+Total time:       0.448190
+
+
+test  10  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404735
+Computation time: 0.017936
+MPI time:         0.023099
+Total time:       0.445517
+
+
+test  11  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.405841
+Computation time: 0.018150
+MPI time:         0.021889
+Total time:       0.445576
+
+
+test  12  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.406653
+Computation time: 0.017819
+MPI time:         0.021918
+Total time:       0.445965
+
+
+test  13  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.406259
+Computation time: 0.018121
+MPI time:         0.021230
+Total time:       0.445301
+
+
+test  14  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.405318
+Computation time: 0.017936
+MPI time:         0.022312
+Total time:       0.445346
+
+
+test  15  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.414368
+Computation time: 0.017748
+MPI time:         0.022085
+Total time:       0.453688
+
+
+test  16  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404952
+Computation time: 0.018108
+MPI time:         0.021418
+Total time:       0.444230
+
+
+test  17  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404718
+Computation time: 0.017887
+MPI time:         0.021696
+Total time:       0.443777
+
+
+test  18  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.404489
+Computation time: 0.018231
+MPI time:         0.022776
+Total time:       0.445189
+
+
+test  19  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.405362
+Computation time: 0.018100
+MPI time:         0.021274
+Total time:       0.444477
+
+
+test  20  on A(1024x1024) and B(1024x1024)
+(1024,1024)x(1024,1024)=(1024,1024)
+Initialization time: 0.406312
+Computation time: 0.018215
+MPI time:         0.021367
+Total time:       0.445653
+
+

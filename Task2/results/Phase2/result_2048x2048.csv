@@ -1,0 +1,160 @@
+test  1  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.503621
+Computation time: 0.299927
+MPI time:         0.081127
+Total time:       1.878516
+
+
+test  2  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.458540
+Computation time: 0.308147
+MPI time:         0.064158
+Total time:       1.829606
+
+
+test  3  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.444946
+Computation time: 0.302552
+MPI time:         0.073751
+Total time:       1.818566
+
+
+test  4  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.449980
+Computation time: 0.307509
+MPI time:         0.070344
+Total time:       1.826726
+
+
+test  5  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.460310
+Computation time: 0.302579
+MPI time:         0.069672
+Total time:       1.829353
+
+
+test  6  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.439444
+Computation time: 0.301788
+MPI time:         0.068473
+Total time:       1.808485
+
+
+test  7  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.460815
+Computation time: 0.300211
+MPI time:         0.079560
+Total time:       1.834054
+
+
+test  8  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.471631
+Computation time: 0.301536
+MPI time:         0.072617
+Total time:       1.844506
+
+
+test  9  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.458979
+Computation time: 0.301491
+MPI time:         0.074081
+Total time:       1.829677
+
+
+test  10  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.442175
+Computation time: 0.307693
+MPI time:         0.063493
+Total time:       1.812074
+
+
+test  11  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.441045
+Computation time: 0.307838
+MPI time:         0.067838
+Total time:       1.815246
+
+
+test  12  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.445437
+Computation time: 0.300734
+MPI time:         0.074121
+Total time:       1.818558
+
+
+test  13  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.443516
+Computation time: 0.299775
+MPI time:         0.069982
+Total time:       1.810445
+
+
+test  14  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.445683
+Computation time: 0.307840
+MPI time:         0.065694
+Total time:       1.817897
+
+
+test  15  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.475075
+Computation time: 0.301934
+MPI time:         0.074250
+Total time:       1.846268
+
+
+test  16  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.440903
+Computation time: 0.307798
+MPI time:         0.068533
+Total time:       1.814420
+
+
+test  17  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.452302
+Computation time: 0.308064
+MPI time:         0.062094
+Total time:       1.820992
+
+
+test  18  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.449899
+Computation time: 0.300408
+MPI time:         0.078449
+Total time:       1.821572
+
+
+test  19  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.481750
+Computation time: 0.300441
+MPI time:         0.068460
+Total time:       1.848073
+
+
+test  20  on A(2048x2048) and B(2048x2048)
+(2048,2048)x(2048,2048)=(2048,2048)
+Initialization time: 1.442952
+Computation time: 0.300161
+MPI time:         0.072081
+Total time:       1.810343
+
+

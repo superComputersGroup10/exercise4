@@ -4,3 +4,7 @@ random_matrix/*
 *.swap
 *.swp
 *.swo
+test/*
+Task3/cannon
+.ipynb_checkpoints/
+*.ipynb

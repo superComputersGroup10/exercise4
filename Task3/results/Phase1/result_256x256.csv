@@ -1,0 +1,160 @@
+test  1  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.123323
+Computation time: 0.000216
+MPI time:         0.001219
+Total time:       0.125655
+
+
+test  2  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.021978
+Computation time: 0.000216
+MPI time:         0.000990
+Total time:       0.024073
+
+
+test  3  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020464
+Computation time: 0.000217
+MPI time:         0.000990
+Total time:       0.022567
+
+
+test  4  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020971
+Computation time: 0.000217
+MPI time:         0.000926
+Total time:       0.022994
+
+
+test  5  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.022787
+Computation time: 0.000235
+MPI time:         0.000957
+Total time:       0.024890
+
+
+test  6  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020767
+Computation time: 0.000217
+MPI time:         0.001024
+Total time:       0.022973
+
+
+test  7  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019455
+Computation time: 0.000217
+MPI time:         0.001055
+Total time:       0.021572
+
+
+test  8  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019570
+Computation time: 0.000218
+MPI time:         0.000942
+Total time:       0.021636
+
+
+test  9  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019750
+Computation time: 0.000217
+MPI time:         0.000996
+Total time:       0.021841
+
+
+test  10  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019860
+Computation time: 0.000219
+MPI time:         0.001046
+Total time:       0.021964
+
+
+test  11  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019870
+Computation time: 0.000218
+MPI time:         0.000967
+Total time:       0.021924
+
+
+test  12  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020167
+Computation time: 0.000218
+MPI time:         0.000991
+Total time:       0.022213
+
+
+test  13  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.022595
+Computation time: 0.000217
+MPI time:         0.000942
+Total time:       0.024649
+
+
+test  14  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020158
+Computation time: 0.000217
+MPI time:         0.000963
+Total time:       0.022324
+
+
+test  15  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019212
+Computation time: 0.000233
+MPI time:         0.001050
+Total time:       0.021399
+
+
+test  16  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020371
+Computation time: 0.000229
+MPI time:         0.001077
+Total time:       0.022571
+
+
+test  17  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.020772
+Computation time: 0.000217
+MPI time:         0.001030
+Total time:       0.022882
+
+
+test  18  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.021627
+Computation time: 0.000217
+MPI time:         0.001057
+Total time:       0.023735
+
+
+test  19  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.021454
+Computation time: 0.000226
+MPI time:         0.000962
+Total time:       0.023492
+
+
+test  20  on A(256x256) and B(256x256)
+(256,256)x(256,256)=(256,256)
+Initialization time: 0.019848
+Computation time: 0.000216
+MPI time:         0.000987
+Total time:       0.021983
+
+

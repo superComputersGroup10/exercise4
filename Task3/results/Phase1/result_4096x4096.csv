@@ -1,0 +1,160 @@
+test  1  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.541107
+Computation time: 2.497244
+MPI time:         0.201861
+Total time:       3.299778
+
+
+test  2  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.071623
+Computation time: 2.502173
+MPI time:         0.200952
+Total time:       2.825011
+
+
+test  3  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.073453
+Computation time: 2.507713
+MPI time:         0.303376
+Total time:       2.952195
+
+
+test  4  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.069413
+Computation time: 2.505489
+MPI time:         0.242540
+Total time:       2.854606
+
+
+test  5  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.071227
+Computation time: 2.502254
+MPI time:         0.228290
+Total time:       2.842104
+
+
+test  6  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.072898
+Computation time: 2.492994
+MPI time:         0.178634
+Total time:       2.791045
+
+
+test  7  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.070457
+Computation time: 2.489317
+MPI time:         0.260100
+Total time:       2.867803
+
+
+test  8  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.069089
+Computation time: 2.491786
+MPI time:         0.261486
+Total time:       2.878059
+
+
+test  9  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.069432
+Computation time: 2.503094
+MPI time:         0.187770
+Total time:       2.797835
+
+
+test  10  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.069626
+Computation time: 2.508183
+MPI time:         0.272257
+Total time:       2.908885
+
+
+test  11  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.069193
+Computation time: 2.510812
+MPI time:         0.204048
+Total time:       2.819090
+
+
+test  12  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.072217
+Computation time: 2.516008
+MPI time:         0.239883
+Total time:       2.899079
+
+
+test  13  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.072074
+Computation time: 2.495035
+MPI time:         0.558500
+Total time:       3.159604
+
+
+test  14  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.070819
+Computation time: 2.523266
+MPI time:         0.248758
+Total time:       2.882613
+
+
+test  15  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.070267
+Computation time: 2.499071
+MPI time:         0.174947
+Total time:       2.791298
+
+
+test  16  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.071427
+Computation time: 2.495708
+MPI time:         0.217523
+Total time:       2.849700
+
+
+test  17  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.069742
+Computation time: 2.501418
+MPI time:         0.215845
+Total time:       2.814801
+
+
+test  18  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.070676
+Computation time: 2.519063
+MPI time:         0.241813
+Total time:       2.875908
+
+
+test  19  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.071996
+Computation time: 2.498607
+MPI time:         0.209150
+Total time:       2.847046
+
+
+test  20  on A(4096x4096) and B(4096x4096)
+(4096,4096)x(4096,4096)=(4096,4096)
+Initialization time: 0.068733
+Computation time: 2.500923
+MPI time:         0.212477
+Total time:       2.824575
+
+

@@ -6,7 +6,8 @@ mpirun -np <# proc> cannon <matrix A> <matrix B> <output file>
 If the user wants to perform a serial checking, it is enough to add a fourth parameter, that can have
 any value.
 
-The code was compiled and tested with two different configurations:
+The code was succesfully compiled and tested with the following configuration: 
 
-    1) OpenMPI 2.0 with gcc 7
-    2) mpi.ibm with intel 16.0
+    1) mpi.ibm with intel 16.0
+    
+Some compilers as gcc 5.4.0 with OpenMPI 1.10 gave runtime errors.

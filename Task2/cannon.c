@@ -217,7 +217,10 @@ int main (int argc, char **argv) {
     MPI_Gather(C_local_block, A_local_block_rows*B_local_block_columns, MPI_DOUBLE, 
                 C_array, A_local_block_rows*B_local_block_columns, MPI_DOUBLE,
                 0, cartesian_grid_communicator);
-
+     
+     //adding gather to MPI  time     
+     mpi_time += MPI_Wtime() - start;
+     
 	// generating output at rank 0
 	if (rank == 0) {
 		// convert the ID array into the actual C matrix 

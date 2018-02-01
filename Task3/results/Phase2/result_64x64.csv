@@ -1,0 +1,160 @@
+test  1  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.041895
+Computation time: 0.000005
+MPI time:         0.000087
+Total time:       0.042677
+
+
+test  2  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017263
+Computation time: 0.000005
+MPI time:         0.000078
+Total time:       0.017898
+
+
+test  3  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017135
+Computation time: 0.000006
+MPI time:         0.000076
+Total time:       0.017743
+
+
+test  4  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017119
+Computation time: 0.000006
+MPI time:         0.000059
+Total time:       0.017711
+
+
+test  5  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.022759
+Computation time: 0.000005
+MPI time:         0.000080
+Total time:       0.023418
+
+
+test  6  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017529
+Computation time: 0.000005
+MPI time:         0.000071
+Total time:       0.018298
+
+
+test  7  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017352
+Computation time: 0.000005
+MPI time:         0.000090
+Total time:       0.018133
+
+
+test  8  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.016275
+Computation time: 0.000005
+MPI time:         0.000064
+Total time:       0.016878
+
+
+test  9  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.018206
+Computation time: 0.000012
+MPI time:         0.000052
+Total time:       0.019021
+
+
+test  10  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017345
+Computation time: 0.000006
+MPI time:         0.000066
+Total time:       0.017983
+
+
+test  11  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017655
+Computation time: 0.000005
+MPI time:         0.000068
+Total time:       0.018288
+
+
+test  12  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017706
+Computation time: 0.000005
+MPI time:         0.000063
+Total time:       0.018290
+
+
+test  13  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.022166
+Computation time: 0.000006
+MPI time:         0.000050
+Total time:       0.022922
+
+
+test  14  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.018203
+Computation time: 0.000005
+MPI time:         0.000077
+Total time:       0.018846
+
+
+test  15  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.016925
+Computation time: 0.000006
+MPI time:         0.000081
+Total time:       0.017540
+
+
+test  16  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.016154
+Computation time: 0.000006
+MPI time:         0.000060
+Total time:       0.016728
+
+
+test  17  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.018527
+Computation time: 0.000006
+MPI time:         0.000070
+Total time:       0.019169
+
+
+test  18  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.016655
+Computation time: 0.000005
+MPI time:         0.000056
+Total time:       0.017258
+
+
+test  19  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.017355
+Computation time: 0.000005
+MPI time:         0.000070
+Total time:       0.018109
+
+
+test  20  on A(64x64) and B(64x64)
+(64,64)x(64,64)=(64,64)
+Initialization time: 0.016334
+Computation time: 0.000006
+MPI time:         0.000053
+Total time:       0.016898
+
+

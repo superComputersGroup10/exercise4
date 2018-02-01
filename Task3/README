@@ -1,0 +1,12 @@
+To run the code, it is now necessary to indicate the output file as a third parameter. Therefore, the code
+should be run as:
+
+mpirun -np <# proc> cannon <matrix A> <matrix B> <output file>
+
+If the user wants to perform a serial checking, it is enough to add a fourth parameter, that can have
+any value.
+
+The code was compiled and tested with two different configurations:
+
+    1) OpenMPI 2.0 with gcc 7
+    2) mpi.ibm with intel 16.0

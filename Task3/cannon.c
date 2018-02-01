@@ -274,7 +274,7 @@ int main (int argc, char **argv) {
             else printf("Consistency check: FAIL\n");
 
             // Free memory
-            for(int i = 0; i < A_rows; i++)
+            for(i = 0; i < A_rows; i++)
                 free(C[i]);
             free(C);
             free(C_array);
